@@ -1,13 +1,13 @@
 ---
-title: "Knowledge-Enhanced Agentic EHR-to-ICD-9 Multi-Label Prediction"
+title: "Knowledge-Enhanced Matching for EHR-to-ICD-9 Multi-Label Coding"
 authors:
   - { name: "Chulin Zhao", me: true }
 venue: "Independent research"
 year: 2026
 status: in-preparation
-statusNote: "Ongoing since Dec. 2025"
+statusNote: "Checkpoint as of Aug. 2026"
 order: 2
-highlight: "An agentic pipeline that grounds ICD-9 coding in retrieved clinical knowledge and similar cases, then reranks candidates with a dual-tower model."
+highlight: "On MIMIC-III Top-50 ICD coding, a fine-tuned Jina encoder with hybrid phrase/document matching reaches 0.567 official test micro-F1; freezing the encoder and rewriting ICD text lifts the same protocol to 0.572."
 ---
 
-An end-to-end knowledge-enhanced agentic framework for EHR-to-ICD-9 multi-label prediction on MIMIC-III. The system extracts clinical knowledge triples, retrieves similar patient cases, generates multi-path ICD candidates with LLMs, and trains a dual-tower reranker over a Top-50 label space. A fuller write-up will be added here.
+The task is discharge-note EHR to multi-label ICD-9 on MIMIC-III (8,066 / 1,729 split). An earlier pipeline that recalled LLM candidates and reranked them was abandoned. The current line structures core clinical evidence, expands each ICD into four textual axes (definition, synonyms, EHR expressions, coding boundaries), and scores codes with a fine-tuned Jina encoder. Training saturates at 0.541 micro-F1; the official evaluation protocol (hybrid max of whole-field and phrase scores, cosine gate 0.35) reaches 0.567. Targeted ICD-side rewriting without retraining peaks at 0.572. Remaining errors are semantic, not just missing evidence: status versus event language, mixture dilution, and short-phrase attractors that the frozen embedding cannot separate.
