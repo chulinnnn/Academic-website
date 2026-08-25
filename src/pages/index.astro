@@ -24,7 +24,7 @@ const externalLinks = [
     <p class="meta-line">{site.degree} · {site.applying}</p>
 
     <div class="header-actions">
-      <a class="btn btn-primary" href={site.cv} download>Download CV</a>
+      <a class="btn btn-primary" href={`${import.meta.env.BASE_URL}cv.pdf`} download>Download CV</a>
       <div class="link-row">
         {externalLinks.map((link) => (
           <a href={link.href}>{link.label}</a>

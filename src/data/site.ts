@@ -10,7 +10,7 @@ export const site = {
   cv: '/cv.pdf',
   links: {
     scholar: '', // e.g. https://scholar.google.com/citations?user=XXXX
-    github: '', // e.g. https://github.com/yourusername
+    github: 'https://github.com/chulinnnn',
     orcid: '',
   },
   interests: [
