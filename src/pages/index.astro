@@ -15,6 +15,9 @@ const renderedPublications = await Promise.all(
   })),
 );
 
+const assetUrl = (path: string) =>
+  `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+
 const externalLinks = [
   { label: 'Email', href: `mailto:${site.email}`, show: true },
   { label: 'Scholar', href: site.links.scholar, show: !!site.links.scholar },
@@ -24,70 +27,86 @@ const externalLinks = [
 ---
 
 <BaseLayout>
-  <header>
-    <h1>{site.name}</h1>
-    <p class="tagline">{site.tagline}</p>
-    <p class="meta-line">{site.affiliation}</p>
-    <p class="meta-line">{site.degree} · {site.applying}</p>
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <img
+        class="portrait"
+        src={assetUrl(site.portrait)}
+        alt={`Portrait of ${site.name}`}
+        width="220"
+        height="220"
+      />
+      <h1>{site.name}</h1>
+      <p class="tagline">{site.tagline}</p>
+      <p class="meta-line">{site.affiliation}</p>
+      <p class="meta-line">{site.degree}</p>
+      <p class="meta-line applying">{site.applying}</p>
 
-    <div class="header-actions">
-      <a class="btn btn-primary" href={`${import.meta.env.BASE_URL}cv.pdf`} download>Download CV</a>
-      <div class="link-row">
+      <div class="gpa-card">
+        <span class="gpa-value">{site.majorGpa}<small>/100</small></span>
+        <span class="gpa-label">{site.majorGpaLabel}</span>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn btn-primary" href={assetUrl(site.cv)} download>Download CV</a>
+        <a class="btn" href={assetUrl(site.transcript)} download>Transcript</a>
+      </div>
+
+      <nav class="link-row" aria-label="Contact links">
         {externalLinks.map((link) => (
           <a href={link.href}>{link.label}</a>
         ))}
+      </nav>
+
+      <div class="sidebar-block">
+        <h2>Interests</h2>
+        <div class="interests">
+          {site.interests.map((interest) => (
+            <span class="interest-tag">{interest}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="sidebar-block contact-block">
+        <h2>Contact</h2>
+        <p>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+        {site.emailAlt && (
+          <p>
+            <a href={`mailto:${site.emailAlt}`}>{site.emailAlt}</a>
+          </p>
+        )}
       </div>
     </div>
-  </header>
+  </aside>
 
-  <section id="about">
-    <h2>About</h2>
-    {site.bio.map((paragraph) => <p>{paragraph}</p>)}
-  </section>
+  <main class="content">
+    <section id="news">
+      <h2>News</h2>
+      <ul class="news-list">
+        {site.news.map((item) => (
+          <li>
+            <span class="news-date">{item.date}</span>
+            <span>{item.text}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-  <section id="research">
-    <h2>Research Interests</h2>
-    <div class="interests">
-      {site.interests.map((interest) => (
-        <span class="interest-tag">{interest}</span>
-      ))}
-    </div>
-  </section>
+    <section id="publications">
+      <h2>Publications</h2>
+      <div class="pub-list">
+        {renderedPublications.map(({ pub, Content }) => (
+          <Publication pub={pub}>
+            <Content />
+          </Publication>
+        ))}
+      </div>
+    </section>
 
-  <section id="news">
-    <h2>News</h2>
-    <ul class="news-list">
-      {site.news.map((item) => (
-        <li>
-          <span class="news-date">{item.date}</span>
-          <span>{item.text}</span>
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <section id="publications">
-    <h2>Publications</h2>
-    <div class="pub-list">
-      {renderedPublications.map(({ pub, Content }) => (
-        <Publication pub={pub}>
-          <Content />
-        </Publication>
-      ))}
-    </div>
-  </section>
-
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>
-      Email: <a href={`mailto:${site.email}`}>{site.email}</a>
-      {site.emailAlt && (
-        <> · <a href={`mailto:${site.emailAlt}`}>{site.emailAlt}</a></>
-      )}
-    </p>
-  </section>
-
-  <footer>
-    <p>Last updated {new Date().toISOString().slice(0, 10)}.</p>
-  </footer>
+    <footer>
+      <p>Last updated {new Date().toISOString().slice(0, 10)}.</p>
+    </footer>
+  </main>
 </BaseLayout>

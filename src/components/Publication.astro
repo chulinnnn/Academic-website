@@ -19,17 +19,18 @@ const assetUrl = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
 ---
 
-<article class="pub-item">
+<article class={`pub-card pub-${status}`}>
   <h3 class="pub-title">{title}</h3>
   <p class="pub-authors">
     {authors.map((a, i) => (
       <>
         {i > 0 && ', '}
         {a.me ? <span class="me">{a.name}</span> : a.name}
+        {equalContribution && i < 2 && <sup class="eq-star">*</sup>}
       </>
     ))}
-    {equalContribution && <span> (equal contribution)</span>}
   </p>
+  {equalContribution && <p class="eq-note">* Equal contribution</p>}
   <p class="pub-venue">
     <em>{venue}</em>, {year}
     <span class={`badge badge-${status}`}>{statusLabel[status]}</span>

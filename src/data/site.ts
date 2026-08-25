@@ -2,14 +2,18 @@ export const site = {
   name: 'Chulin Zhao',
   tagline: 'Researching uncertainty, medical imaging, and AI-generated content quality.',
   affiliation:
-    'Joint Bachelor\'s Program, Central South University & University of Dundee',
+    "Joint Bachelor's Program, Central South University & University of Dundee",
   degree: 'B.Eng. in Computer Science (English-taught)',
   applying: 'PhD applicant, Fall 2027',
   email: '2617944@dundee.ac.uk',
   emailAlt: 'zhaochulin1329@163.com',
-  cv: '/cv.pdf',
+  cv: 'cv.pdf',
+  transcript: 'transcript.pdf',
+  portrait: 'assets/portrait.jpg',
+  majorGpa: '93.5',
+  majorGpaLabel: 'Major coursework GPA',
   links: {
-    scholar: '', // e.g. https://scholar.google.com/citations?user=XXXX
+    scholar: '',
     github: 'https://github.com/chulinnnn',
     orcid: '',
   },
@@ -21,11 +25,6 @@ export const site = {
     'Text-to-Image Generation',
     'Perceptual Quality Assessment',
     'Clinical NLP',
-  ],
-  bio: [
-    'I am a final-year undergraduate in the joint program between Central South University and the University of Dundee, applying for PhD programs starting Fall 2027.',
-    'My research spans medical imaging and generative AI. I work on closed-form uncertainty for radiative Gaussian splatting in sparse-view CT, and on human perception of compositional defects in text-to-image models.',
-    'I am interested in building methods that are not only accurate but also calibrated, interpretable, and trustworthy in real clinical and generative settings.',
   ],
   news: [
     {

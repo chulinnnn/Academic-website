@@ -10,7 +10,7 @@ venue: "IEEE International Workshop on Multimedia Signal Processing (MMSP)"
 year: 2026
 status: accepted
 equalContribution: true
-order: 1
+order: 3
 pdf: "/papers/co-aid-mmsp.pdf"
 code: "https://github.com/Future-IQA/CO-AID"
 highlight: "First systematic study of how humans identify compositional defects in AI-generated images; curated the CO-AID dataset with 651 compositional prompts and multi-label defect annotations."
