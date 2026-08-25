@@ -36,11 +36,11 @@ const assetUrl = (path: string) =>
     {statusNote && <span class="badge-note"> — {statusNote}</span>}
   </p>
   <div class="pub-links">
-    {pdf && <a href={pdf}>PDF</a>}
+    {pdf && <a href={assetUrl(pdf)}>PDF</a>}
     {arxiv && <a href={arxiv}>arXiv</a>}
     {doi && <a href={doi}>DOI</a>}
     {code && <a href={code}>Code / Dataset</a>}
   </div>
   {highlight && <p class="pub-highlight">{highlight}</p>}
-  {pub.body && <div class="pub-body"><slot /></div>}
+  <div class="pub-body"><slot /></div>
 </article>

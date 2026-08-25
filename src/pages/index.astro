@@ -1,11 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Publication from '../components/Publication.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { site } from '../data/site';
 
 const publications = (await getCollection('publications')).sort(
   (a, b) => a.data.order - b.data.order,
+);
+
+const renderedPublications = await Promise.all(
+  publications.map(async (pub) => ({
+    pub,
+    ...(await render(pub)),
+  })),
 );
 
 const externalLinks = [
@@ -62,9 +69,9 @@ const externalLinks = [
   <section id="publications">
     <h2>Publications</h2>
     <div class="pub-list">
-      {publications.map((pub) => (
+      {renderedPublications.map(({ pub, Content }) => (
         <Publication pub={pub}>
-          <pub.Content />
+          <Content />
         </Publication>
       ))}
     </div>
