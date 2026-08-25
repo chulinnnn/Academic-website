@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Publication from '../components/Publication.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../data/site';
+
+const publications = (await getCollection('publications')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const externalLinks = [
+  { label: 'Email', href: `mailto:${site.email}`, show: true },
+  { label: 'Scholar', href: site.links.scholar, show: !!site.links.scholar },
+  { label: 'GitHub', href: site.links.github, show: !!site.links.github },
+  { label: 'ORCID', href: site.links.orcid, show: !!site.links.orcid },
+].filter((l) => l.show);
+---
+
+<BaseLayout>
+  <header>
+    <h1>{site.name}</h1>
+    <p class="tagline">{site.tagline}</p>
+    <p class="meta-line">{site.affiliation}</p>
+    <p class="meta-line">{site.degree} · {site.applying}</p>
+
+    <div class="header-actions">
+      <a class="btn btn-primary" href={site.cv} download>Download CV</a>
+      <div class="link-row">
+        {externalLinks.map((link) => (
+          <a href={link.href}>{link.label}</a>
+        ))}
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <h2>About</h2>
+    {site.bio.map((paragraph) => <p>{paragraph}</p>)}
+  </section>
+
+  <section id="research">
+    <h2>Research Interests</h2>
+    <div class="interests">
+      {site.interests.map((interest) => (
+        <span class="interest-tag">{interest}</span>
+      ))}
+    </div>
+  </section>
+
+  <section id="news">
+    <h2>News</h2>
+    <ul class="news-list">
+      {site.news.map((item) => (
+        <li>
+          <span class="news-date">{item.date}</span>
+          <span>{item.text}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="publications">
+    <h2>Publications</h2>
+    <div class="pub-list">
+      {publications.map((pub) => (
+        <Publication pub={pub}>
+          <pub.Content />
+        </Publication>
+      ))}
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>
+      Email: <a href={`mailto:${site.email}`}>{site.email}</a>
+      {site.emailAlt && (
+        <> · <a href={`mailto:${site.emailAlt}`}>{site.emailAlt}</a></>
+      )}
+    </p>
+  </section>
+
+  <footer>
+    <p>Last updated {new Date().toISOString().slice(0, 10)}.</p>
+  </footer>
+</BaseLayout>

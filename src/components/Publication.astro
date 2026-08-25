@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  pub: CollectionEntry<'publications'>;
+}
+
+const { pub } = Astro.props;
+const { title, authors, venue, year, status, statusNote, equalContribution, pdf, arxiv, code, doi, highlight } = pub.data;
+
+const statusLabel: Record<string, string> = {
+  accepted: 'Accepted',
+  preprint: 'Preprint',
+  'under-review': 'Under Review',
+  'in-preparation': 'In Preparation',
+};
+---
+
+<article class="pub-item">
+  <h3 class="pub-title">{title}</h3>
+  <p class="pub-authors">
+    {authors.map((a, i) => (
+      <>
+        {i > 0 && ', '}
+        {a.me ? <span class="me">{a.name}</span> : a.name}
+      </>
+    ))}
+    {equalContribution && <span> (equal contribution)</span>}
+  </p>
+  <p class="pub-venue">
+    <em>{venue}</em>, {year}
+    <span class={`badge badge-${status}`}>{statusLabel[status]}</span>
+    {statusNote && <span class="badge-note"> — {statusNote}</span>}
+  </p>
+  <div class="pub-links">
+    {pdf && <a href={pdf}>PDF</a>}
+    {arxiv && <a href={arxiv}>arXiv</a>}
+    {doi && <a href={doi}>DOI</a>}
+    {code && <a href={code}>Code / Dataset</a>}
+  </div>
+  {highlight && <p class="pub-highlight">{highlight}</p>}
+  {pub.body && <div class="pub-body"><slot /></div>}
+</article>
