@@ -1,6 +1,6 @@
 export const site = {
   name: 'Chulin Zhao',
-  tagline: 'Researching uncertainty, medical imaging, and AI-generated content quality.',
+  tagline: 'Building trustworthy AI for medicine—through calibrated imaging, clinical text understanding, and rigorous evaluation.',
   affiliation:
     "Joint Bachelor's Program, Central South University & University of Dundee",
   degree: 'B.Eng. in Computer Science (English-taught)',
@@ -18,13 +18,12 @@ export const site = {
     orcid: '',
   },
   interests: [
-    '3D Gaussian Splatting',
-    'Uncertainty Quantification',
-    'Sparse-view CT',
-    'Medical Imaging',
-    'Text-to-Image Generation',
-    'Perceptual Quality Assessment',
-    'Clinical NLP',
+    'Trustworthy AI in Healthcare',
+    'Uncertainty Quantification & Calibration',
+    'Medical Image Reconstruction',
+    'Clinical NLP & EHR Understanding',
+    'LLM Agents for Clinical AI',
+    'Evaluation of Generative AI',
   ],
   news: [
     {
