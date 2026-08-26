@@ -22,11 +22,8 @@ npm run preview
 
 1. Push this repo to GitHub.
 2. Go to **Settings → Pages → Build and deployment**.
-3. Set **Source** to **Deploy from a branch**.
-4. Set **Branch** to `gh-pages` and folder **`/ (root)`**, then Save.
-5. Push to `main` — GitHub Actions builds the site and pushes static files to the `gh-pages` branch.
-
-If **GitHub Actions** is not available as a Pages source, this branch-based setup is the alternative.
+3. Set **Source** to **GitHub Actions**.
+4. Push to `main` — the workflow in `.github/workflows/deploy.yml` builds and deploys directly to Pages.
 
 If using a **project site** (`https://username.github.io/repo-name/`), set `base: '/repo-name/'` in `astro.config.mjs`.
 
