@@ -24,4 +24,28 @@ const publications = defineCollection({
   }),
 });
 
-export const collections = { publications };
+const projects = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    url: z.string(),
+    role: z.string().optional(),
+    award: z.string().optional(),
+    adoption: z.string().optional(),
+    cover: z.string().optional(),
+    playUrl: z.string().optional(),
+    order: z.number(),
+  }),
+});
+
+const speeches = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    date: z.string(),
+    video: z.string(),
+    order: z.number(),
+  }),
+});
+
+export const collections = { publications, projects, speeches };

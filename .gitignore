@@ -10,3 +10,9 @@ node_modules/
 .env.*
 .DS_Store
 Thumbs.db
+
+# large local assets (not in git)
+public/assets/Rhythm-Playground-Windows.zip
+public/assets/The gender gap in STEM.mp4
+public/assets/2617944_CW2_FinalGameBuild/
+rhythm-readme.txt

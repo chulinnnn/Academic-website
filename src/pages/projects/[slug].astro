@@ -1,0 +1,44 @@
+---
+import DetailLayout from '../../layouts/DetailLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id.replace(/\.md$/, '') },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, url, role, award, adoption, cover, playUrl } = project.data;
+
+const assetUrl = (path: string) =>
+  `${import.meta.env.BASE_URL}${encodeURI(path.replace(/^\//, ''))}`;
+---
+
+<DetailLayout title={title} description={adoption ?? role}>
+  <article class="detail-card">
+    {cover && (
+      <img
+        class="project-cover-large"
+        src={assetUrl(cover)}
+        alt={`${title} cover`}
+      />
+    )}
+    <h1 class="detail-title">{title}</h1>
+    {role && <p class="detail-meta">{role}</p>}
+    {award && <p class="detail-award">{award}</p>}
+    {adoption && <p class="detail-highlight">{adoption}</p>}
+    <div class="detail-links">
+      <a href={url} target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+      {playUrl && (
+        <a href={assetUrl(playUrl)} download>Download for Windows</a>
+      )}
+    </div>
+    <div class="detail-body prose">
+      <Content />
+    </div>
+  </article>
+</DetailLayout>

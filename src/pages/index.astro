@@ -8,6 +8,14 @@ const publications = (await getCollection('publications')).sort(
   (a, b) => a.data.order - b.data.order,
 );
 
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const speeches = (await getCollection('speeches')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
 const renderedPublications = await Promise.all(
   publications.map(async (pub) => ({
     pub,
@@ -15,8 +23,20 @@ const renderedPublications = await Promise.all(
   })),
 );
 
-const assetUrl = (path: string) =>
+const renderedProjects = await Promise.all(
+  projects.map(async (project) => ({
+    project,
+    ...(await render(project)),
+  })),
+);
+
+const slugFromId = (id: string) => id.replace(/\.md$/, '');
+
+const pageUrl = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+
+const assetUrl = (path: string) =>
+  `${import.meta.env.BASE_URL}${encodeURI(path.replace(/^\//, ''))}`;
 
 const externalLinks = [
   { label: 'Email', href: `mailto:${site.email}`, show: true, external: false },
@@ -102,6 +122,67 @@ const externalLinks = [
           <Publication pub={pub}>
             <Content />
           </Publication>
+        ))}
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="project-list">
+        {renderedProjects.map(({ project, Content }) => (
+          <article class="project-card">
+            {project.data.cover && (
+              <a class="project-cover-link" href={pageUrl(`projects/${slugFromId(project.id)}/`)}>
+                <img
+                  class="project-cover"
+                  src={assetUrl(project.data.cover)}
+                  alt={`${project.data.title} cover`}
+                  loading="lazy"
+                />
+              </a>
+            )}
+            <h3 class="project-title">
+              <a href={pageUrl(`projects/${slugFromId(project.id)}/`)}>{project.data.title}</a>
+            </h3>
+            {project.data.adoption && (
+              <p class="project-highlight">{project.data.adoption}</p>
+            )}
+            {project.data.role && <p class="project-meta">{project.data.role}</p>}
+            {project.data.award && <p class="project-award">{project.data.award}</p>}
+            <details class="project-details">
+              <summary>About this project</summary>
+              <div class="project-body">
+                <Content />
+              </div>
+            </details>
+            <div class="card-links">
+              <a href={pageUrl(`projects/${slugFromId(project.id)}/`)}>Full page</a>
+              <a href={project.data.url} target="_blank" rel="noopener noreferrer">GitHub</a>
+              {project.data.playUrl && (
+                <a href={assetUrl(project.data.playUrl)} download>Download for Windows</a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="speeches">
+      <h2>Speeches</h2>
+      <div class="speech-list">
+        {speeches.map((speech) => (
+          <article class="speech-card">
+            <h3 class="speech-title">
+              <a href={pageUrl(`speeches/${slugFromId(speech.id)}/`)}>{speech.data.title}</a>
+            </h3>
+            <p class="speech-date">{speech.data.date}</p>
+            <video class="speech-video" controls preload="metadata">
+              <source src={assetUrl(speech.data.video)} type="video/mp4" />
+            </video>
+            <div class="card-links">
+              <a href={pageUrl(`speeches/${slugFromId(speech.id)}/`)}>Open fullscreen</a>
+            </div>
+          </article>
         ))}
       </div>
     </section>

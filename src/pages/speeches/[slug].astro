@@ -1,0 +1,91 @@
+---
+import SpeechLayout from '../../layouts/SpeechLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const speeches = await getCollection('speeches');
+  return speeches.map((speech) => ({
+    params: { slug: speech.id.replace(/\.md$/, '') },
+    props: { speech },
+  }));
+}
+
+const { speech } = Astro.props;
+const { title, date, video } = speech.data;
+
+const assetUrl = (path: string) =>
+  `${import.meta.env.BASE_URL}${encodeURI(path.replace(/^\//, ''))}`;
+---
+
+<SpeechLayout title={title}>
+  <div class="speech-fullscreen-overlay" id="speech-overlay">
+    <p>Click to watch in fullscreen</p>
+  </div>
+  <p class="speech-fullscreen-date">{date}</p>
+  <video
+    id="speech-player"
+    class="speech-video speech-video-fullscreen"
+    controls
+    playsinline
+    preload="metadata"
+  >
+    <source src={assetUrl(video)} type="video/mp4" />
+  </video>
+  <button type="button" class="speech-fullscreen-btn" id="speech-fullscreen-btn">
+    Enter fullscreen
+  </button>
+</SpeechLayout>
+
+<script>
+  const video = document.getElementById('speech-player') as HTMLVideoElement | null;
+  const btn = document.getElementById('speech-fullscreen-btn');
+  const overlay = document.getElementById('speech-overlay');
+
+  const hideOverlay = () => overlay?.classList.add('is-hidden');
+
+  const enterFullscreen = async () => {
+    if (!video) return;
+    try {
+      if (video.requestFullscreen) {
+        await video.requestFullscreen();
+      } else if ((video as HTMLVideoElement & { webkitEnterFullscreen?: () => void }).webkitEnterFullscreen) {
+        (video as HTMLVideoElement & { webkitEnterFullscreen: () => void }).webkitEnterFullscreen();
+      }
+    } catch {
+      /* browser may block without user gesture */
+    }
+  };
+
+  const startFullscreenPlayback = async () => {
+    hideOverlay();
+    await enterFullscreen();
+    try {
+      await video?.play();
+    } catch {
+      /* autoplay may be blocked until user interacts with controls */
+    }
+  };
+
+  overlay?.addEventListener('click', () => {
+    void startFullscreenPlayback();
+  });
+
+  btn?.addEventListener('click', () => {
+    if (document.fullscreenElement) {
+      void document.exitFullscreen();
+      return;
+    }
+    void startFullscreenPlayback();
+  });
+
+  video?.addEventListener('play', () => {
+    hideOverlay();
+    void enterFullscreen();
+  }, { once: true });
+
+  document.addEventListener('fullscreenchange', () => {
+    if (btn) {
+      btn.textContent = document.fullscreenElement ? 'Exit fullscreen' : 'Enter fullscreen';
+    }
+  });
+</script>

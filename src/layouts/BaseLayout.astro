@@ -5,9 +5,10 @@ import { site } from '../data/site';
 interface Props {
   title?: string;
   description?: string;
+  fullBleed?: boolean;
 }
 
-const { title = site.name, description = site.tagline } = Astro.props;
+const { title = site.name, description = site.tagline, fullBleed = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -21,8 +22,10 @@ const { title = site.name, description = site.tagline } = Astro.props;
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>C</text></svg>" />
   </head>
   <body>
-    <div class="page">
-      <slot />
-    </div>
+    {fullBleed ? <slot /> : (
+      <div class="page">
+        <slot />
+      </div>
+    )}
   </body>
 </html>

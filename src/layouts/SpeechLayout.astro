@@ -1,0 +1,22 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const homeUrl = `${import.meta.env.BASE_URL}`;
+---
+
+<BaseLayout title={title} fullBleed>
+  <main class="speech-fullscreen-page">
+    <header class="speech-fullscreen-header">
+      <a class="speech-back" href={homeUrl}>&larr; Back</a>
+      <h1 class="speech-fullscreen-title">{title}</h1>
+    </header>
+    <div class="speech-fullscreen-stage">
+      <slot />
+    </div>
+  </main>
+</BaseLayout>

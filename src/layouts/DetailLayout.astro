@@ -1,0 +1,20 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const homeUrl = `${import.meta.env.BASE_URL}`;
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="content detail-page">
+    <p class="back-link">
+      <a href={homeUrl}>&larr; Back to home</a>
+    </p>
+    <slot />
+  </main>
+</BaseLayout>
