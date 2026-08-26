@@ -1,13 +1,13 @@
 ---
-title: "Knowledge-Enhanced Matching for EHR-to-ICD-9 Multi-Label Coding"
+title: "Knowledge-Enhanced Agentic EHR-to-ICD-9 Multi-Label Prediction"
 authors:
   - { name: "Chulin Zhao", me: true }
 venue: "Independent research"
 year: 2026
 status: in-preparation
-statusNote: "Checkpoint as of Aug. 2026"
+statusNote: "Ongoing since Apr. 2026"
 order: 2
-highlight: "This research aims to improve automated ICD coding for unstructured EHR data by exploiting the strengths of LLMs in reasoning, failure analysis, and clinical text understanding, rather than relying on LLMs for direct code matching."
+highlight: "Assigns ICD-9 codes from unstructured EHR notes by aligning structured evidence with knowledge-expanded code text, refined through an Evaluate–Improve agent loop rather than direct LLM code prediction."
 ---
 
-This research explores a novel LLM-assisted approach for automated ICD coding from unstructured EHR text. Instead of directly using LLMs for code prediction, I leverage their strengths in clinical language understanding, reasoning, and knowledge refinement to enhance the representation of ICD codes. Each code is expanded along four dimensions: definition, synonyms, EHR expressions, and coding boundaries. An Evaluate–Improver loop is then introduced to iteratively optimize these representations based on feedback from downstream matching performance. The refined representations are combined with a frozen clinical text encoder to improve the semantic alignment between discharge notes and ICD codes.
+This project assigns ICD-9 codes from unstructured discharge notes by aligning structured clinical evidence with knowledge-expanded code representations. An agent first extracts typed evidence across five fields—diagnoses, chronic history, procedures, discharge diagnoses, and hospital course. Each ICD code is expanded along four axes (definition, synonyms, EHR phrasing, and coding boundaries) and iteratively refined by an Evaluate–Improve loop: Evaluate diagnoses matching failures from held-out metrics and writes a failure briefing; Improve rereads the briefing and rewrites the four-axis text. The resulting representations are used to train a matching model between notes and codes.
