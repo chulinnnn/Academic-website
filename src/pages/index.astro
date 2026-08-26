@@ -19,10 +19,11 @@ const assetUrl = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
 
 const externalLinks = [
-  { label: 'Email', href: `mailto:${site.email}`, show: true },
-  { label: 'Scholar', href: site.links.scholar, show: !!site.links.scholar },
-  { label: 'GitHub', href: site.links.github, show: !!site.links.github },
-  { label: 'ORCID', href: site.links.orcid, show: !!site.links.orcid },
+  { label: 'Email', href: `mailto:${site.email}`, show: true, external: false },
+  { label: 'CV', href: assetUrl(site.cv), show: true, external: true },
+  { label: 'Scholar', href: site.links.scholar, show: !!site.links.scholar, external: true },
+  { label: 'GitHub', href: site.links.github, show: !!site.links.github, external: true },
+  { label: 'ORCID', href: site.links.orcid, show: !!site.links.orcid, external: true },
 ].filter((l) => l.show);
 ---
 
@@ -48,13 +49,13 @@ const externalLinks = [
       </div>
 
       <div class="btn-row">
-        <a class="btn btn-primary" href={assetUrl(site.cv)} download>Download CV</a>
+        <a class="btn btn-primary" href={assetUrl(site.cv)} target="_blank" rel="noopener noreferrer">CV</a>
         <a class="btn" href={assetUrl(site.transcript)} download>Transcript</a>
       </div>
 
       <nav class="link-row" aria-label="Contact links">
         {externalLinks.map((link) => (
-          <a href={link.href}>{link.label}</a>
+          <a href={link.href} target={link.external ? '_blank' : undefined} rel={link.external ? 'noopener noreferrer' : undefined}>{link.label}</a>
         ))}
       </nav>
 
