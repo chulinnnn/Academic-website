@@ -18,6 +18,8 @@ export const site = {
     orcid: '',
   },
   interests: [
+    'Computational Imaging',
+    'Medical Imaging',
     'Trustworthy AI in Healthcare',
     'Uncertainty Quantification & Calibration',
     'Medical Image Reconstruction',
