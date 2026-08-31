@@ -1,13 +1,16 @@
 ---
-title: "Knowledge-Enhanced Agentic EHR-to-ICD-9 Multi-Label Prediction"
+title: "LLM-Based Clinical Coding Framework (Ongoing)"
 authors:
   - { name: "Chulin Zhao", me: true }
-venue: "Independent research"
+venue: "Research Assistant, Central South University"
 year: 2026
 status: in-preparation
-statusNote: "Ongoing since Apr. 2026"
+statusNote: "Apr. 2026–Present"
 order: 2
-highlight: "Assigns ICD-9 codes from unstructured EHR notes by aligning structured evidence with knowledge-expanded code text, refined through an Evaluate–Improve agent loop rather than direct LLM code prediction."
+highlight: "Developed an uncertainty-aware, multi-label framework for mapping free-text EHRs to ICD codes through structured LLM reasoning."
 ---
 
-This project assigns ICD-9 codes from unstructured discharge notes by aligning structured clinical evidence with knowledge-expanded code representations. An agent first extracts typed evidence across five fields—diagnoses, chronic history, procedures, discharge diagnoses, and hospital course. Each ICD code is expanded along four axes (definition, synonyms, EHR phrasing, and coding boundaries) and iteratively refined by an Evaluate–Improve loop: Evaluate diagnoses matching failures from held-out metrics and writes a failure briefing; Improve rereads the briefing and rewrites the four-axis text. The resulting representations are used to train a matching model between notes and codes.
+- Developed an uncertainty-aware, multi-label framework for mapping free-text EHRs to ICD codes through structured LLM reasoning.
+- Modeled the ICD label space using co-occurrence-guided hierarchical partitioning to enable clinically coherent candidate pruning and efficient inference.
+- Designed a bottom-up agentic pipeline that synthesizes raw clinical evidence and code relationships into executable routing and confirmation criteria.
+- Formulated an LLM-driven inference mechanism with constrained decision actions, adaptive multi-branch reasoning, uncertainty-aware deferral, and traceable error attribution.
